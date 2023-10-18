@@ -7,7 +7,7 @@ namespace ProvaPub.Services
     public class CustomerService
     {
         TestDbContext _ctx;
-
+        private int totalItemPagina = 10;
         public CustomerService(TestDbContext ctx)
         {
             _ctx = ctx;
@@ -15,7 +15,15 @@ namespace ProvaPub.Services
 
         public CustomerList ListCustomers(int page)
         {
-            return new CustomerList() { HasNext = false, TotalCount = 10, Customers = _ctx.Customers.ToList() };
+            var skip = (page - 1) * totalItemPagina;
+            var customers = _ctx.Customers.Skip(skip).Take(totalItemPagina).ToList();
+            var totalCount = _ctx.Products.Count(); // Consider caching this value if it doesn't change often.
+
+            var hasNext = (skip + customers.Count) < totalCount;
+
+            return new CustomerList() { HasNext = false, TotalCount = totalCount, Customers = customers };
+
+          // return new ProductList { HasNext = hasNext, TotalCount = totalCount, Products = products };
         }
 
         public async Task<bool> CanPurchase(int customerId, decimal purchaseValue)
