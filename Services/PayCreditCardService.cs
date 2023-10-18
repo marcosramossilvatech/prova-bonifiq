@@ -12,7 +12,8 @@ namespace ProvaPub.Services
         {
             return await Task.FromResult(new Order()
             {
-                Value = paymentValue
+                Value = paymentValue,
+                CustomerId = customerId
             });
         }
     }
