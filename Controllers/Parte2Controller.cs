@@ -21,27 +21,25 @@ namespace ProvaPub.Controllers
 		/// 
 		
 
-        private readonly ProductService _productService;
-        private readonly CustomerService _customerService;
-        public Parte2Controller( ProductService productService,
-                                 CustomerService customerService)
-		{
-			_productService = productService;
-			_customerService = customerService;
-		}
+		private readonly BaseService _baseService;
+        public Parte2Controller( BaseService baseService)
+
+        {
+			_baseService = baseService;
+        }
 	
 		[HttpGet("products")]
 		public BaseList<Product> ListProducts(int page)
 		{
 
-			return _productService.ListProducts(page);
-		}
+            return _baseService.ListBase<Product>(page);
+        }
 
 		[HttpGet("customers")]
 		public BaseList<Customer> ListCustomers(int page)
 		{
-			
-			return _customerService.ListCustomers(page);
-		}
+
+            return _baseService.ListBase<Customer>(page);
+        }
 	}
 }
