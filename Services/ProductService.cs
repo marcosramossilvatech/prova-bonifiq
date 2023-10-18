@@ -12,15 +12,15 @@ namespace ProvaPub.Services
 			_ctx = ctx;
 		}
 
-		public ProductList  ListProducts(int page)
+		public BaseList<Product>  ListProducts(int page)
 		{
             var skip = (page - 1) * totalItemPagina;
             var products = _ctx.Products.Skip(skip).Take(totalItemPagina).ToList();
-            var totalCount = _ctx.Products.Count(); // Consider caching this value if it doesn't change often.
+            var totalCount = _ctx.Products.Count(); 
 
             var hasNext = (skip + products.Count) < totalCount;
 
-            return new ProductList { HasNext = hasNext, TotalCount = totalCount, Products = products };
+            return new BaseList<Product> { HasNext = hasNext, TotalCount = totalCount, Lista = products };
         }
 
 	}
